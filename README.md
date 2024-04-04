@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ```
 3. Запустить парсер из командной строки:
 ```shell
-scrapy crawl petrovich_parser
+scrapy crawl petrovich_spider
 ```
 ## _Вывод результатов_
 Результатом работы парсера будет создание таблицы Excel:
