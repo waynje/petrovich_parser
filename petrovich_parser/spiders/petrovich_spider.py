@@ -15,39 +15,40 @@ BASE_LINK = 'https://petrovich.ru'
 
 class PetrovichSpiderSpider(scrapy.Spider):
     name = 'petrovich_spider'
-    start_urls = ['https://petrovich.ru/']
+    # start_urls = ['https://petrovich.ru/']
+    # allowed_domains = ['https://petrovich.ru/']
 
-    def start_login(self, response):
+    # def start_login(self, response):
 
-        button = response.css('a.header-button.auth-header-button')
-        button_url = button.css('::attr(href)').extract_first()
-        if button_url:
-            yield response.follow(button_url, callback=self.login)
+    #     button = response.css('a.header-button.auth-header-button')
+    #     button_url = button.css('::attr(href)').extract_first()
+    #     if button_url:
+    #         yield response.follow(button_url, callback=self.login)
 
-    def login(self, response):
+    # def login(self, response):
 
-        sleep(1)
-        email_form_response = response.css('#pt-input-id-5')
-        password_form_response = response.css('#pt-input-id-6')
-        return FormRequest(self.start_urls,
-                           formdata={email_form_response: LOGIN,
-                                     password_form_response: PASSWORD},
-                           callback=self.start_requests)
+    #     sleep(1)
+    #     email_form_response = response.css('#pt-input-id-5')
+    #     password_form_response = response.css('#pt-input-id-6')
+    #     return FormRequest(self.start_urls,
+    #                        formdata={email_form_response: LOGIN,
+    #                                  password_form_response: PASSWORD},
+    #                        callback=self.start_requests,)
 
     def start_requests(self):
 
-        estimates_url = 'https://petrovich.ru/cabinet/estimates/'
-        yield scrapy.Request(estimates_url, callback=self.start_scraping, meta={'dont_redirect': True})
+        # estimates_url = 'https://petrovich.ru/cabinet/estimates/'
+        # yield scrapy.Request(estimates_url, callback=self.start_scraping, meta={'dont_redirect': True})
 
-        # for url in ESTIMATES_URL:
-        #     yield scrapy.Request(url, callback=self.parse_estimate, meta={'dont_redirect': True} )
+        for url in ESTIMATES_URL:
+            yield scrapy.Request(url, callback=self.parse_estimate, meta={'dont_redirect': True} )
 
-    def start_scraping(self, response):
+    # def start_scraping(self, response):
 
-        for link in response.css('a.title.pt-wrap::attr(href)'):
-            yield response.follow(
-                link, callback=self.parse_estimate,
-            )
+    #     for link in response.css('a.title.pt-wrap::attr(href)'):
+    #         yield response.follow(
+    #             link, callback=self.parse_estimate,
+    #         )
 
     def parse_estimate(self, response):
 
