@@ -4,6 +4,7 @@ from time import sleep
 import scrapy
 from scrapy.http import FormRequest
 
+from ..constants import ESTIMATES_URL
 from ..items import PetrovichParserItem
 
 
@@ -37,6 +38,9 @@ class PetrovichSpiderSpider(scrapy.Spider):
 
         estimates_url = 'https://petrovich.ru/cabinet/estimates/'
         yield scrapy.Request(estimates_url, callback=self.start_scraping)
+
+        # for url in ESTIMATES_URL:
+        #     yield scrapy.Request(url, callback=self.start_scraping)
 
     def start_scraping(self, response):
 
