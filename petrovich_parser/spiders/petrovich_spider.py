@@ -28,7 +28,7 @@ class PetrovichSpiderSpider(scrapy.Spider):
 
     def start_scraping(self, response):
 
-        for link in response.css('title pt-wrap a[href^="cabinet/estimate/"]'):
+        for link in response.css('a.title.pt-wrap').attrib['href']:
             yield response.follow(
                 link, callback=self.parse_estimate
             )
