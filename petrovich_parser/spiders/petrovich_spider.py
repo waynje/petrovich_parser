@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 import scrapy
 from scrapy.http import FormRequest
@@ -13,12 +14,23 @@ BASE_LINK = 'https://petrovich.ru'
 
 class PetrovichSpiderSpider(scrapy.Spider):
     name = 'petrovich_spider'
+    start_urls = ['https://petrovich.ru/']
+
+    def start_login(self, response):
+
+        button = response.css('a.header-button.auth-header-button')
+        button_url = button.css('::attr(href)').extract_first()
+        if button_url:
+            yield response.follow(button_url, callback=self.login)
 
     def login(self, response):
 
-        login_url = 'https://petrovich.ru/cabinet/profile/'
-        return FormRequest(login_url,
-                           formdata={'email': LOGIN, 'password': PASSWORD},
+        sleep(1)
+        email_form_response = response.css('#pt-input-id-5')
+        password_form_response = response.css('#pt-input-id-6')
+        return FormRequest(self.start_urls,
+                           formdata={email_form_response: LOGIN,
+                                     password_form_response: PASSWORD},
                            callback=self.start_scraping)
 
     def start_requests(self):
