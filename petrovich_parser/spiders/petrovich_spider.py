@@ -41,7 +41,7 @@ class PetrovichSpiderSpider(scrapy.Spider):
         # yield scrapy.Request(estimates_url, callback=self.start_scraping, meta={'dont_redirect': True})
 
         for url in ESTIMATES_URL:
-            yield scrapy.Request(url, callback=self.parse_estimate, meta={'dont_redirect': True} )
+            yield scrapy.Request(url, callback=self.parse_estimate, meta={'dont_redirect': True})
 
     # def start_scraping(self, response):
 
@@ -52,8 +52,8 @@ class PetrovichSpiderSpider(scrapy.Spider):
 
     def parse_estimate(self, response):
 
-        products_title = response.css('span.pt-typography____JqPt[data-test="product-title"]::text').getall()
-        links = response.css('a.sc-eqUAAy::attr(href)').getall()
+        products_title = response.css('span[data-test="product-title"]::text').getall()
+        links = response.css('a[data-test="product-title"]::attr(href)').getall()
         products_amount = response.css('input[data-test="product-counter"]::attr(value)').getall()
 
         for product_title, product_amount, product_link in zip(products_title, products_amount, links):
